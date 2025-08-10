@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=0.5" />
+<title>Administração Campeonato</title>
+  <link rel="icon" href="imagens/AC SOCCER.png" type="image/x-icon">
+  <link rel="icon" href="imagens/AC SOCCER.png" sizes="16x16" />
+  <link rel="icon" href="imagens/AC SOCCER.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="imagens/AC SOCCER.png" sizes="48x48" type="image/png" />
+  <link rel="apple-touch-icon" href="imagens/AC SOCCER.png">
+<style>
+  :root {
+    --blue: #1565c0;
+    --blue-light: #1976d2;
+    --blue-dark: #0d47a1;
+    --gray-light: #f5f5f5;
+    --gray-medium: #ccc;
+    --gray-dark: #555;
+    --green: #388e3c;
+    --red: #d32f2f;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gray-light);
+    margin: 0;
+    padding: 1.5rem;
+    color: var(--gray-dark);
+    min-height: 100vh;
+  }
+  h1 {
+    color: var(--blue-dark);
+    margin-bottom: 1rem;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+
+<div id="loginContainer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+  <h2 style="color: #1565c0;">Login - Administração</h2>
+  <input type="password" id="senha" placeholder="Digite a senha" style="padding: 0.5rem; font-size: 1rem; width: 220px; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  <button onclick="verificarSenha()" style="padding: 0.5rem 1rem; font-weight: bold; color: white; background-color: #1565c0; border: none; border-radius: 5px; cursor: pointer;">Entrar</button>
+  <div id="mensagemErro" style="color: red; margin-top: 0.5rem;"></div>
+</div>
+
+<div id="conteudoPrincipal" style="display: none;">
+  
+  <p>
+    <style>
+  :root {
+    --blue: #1565c0;
+    --blue-light: #1976d2;
+    --blue-dark: #0d47a1;
+    --gray-light: #f5f5f5;
+    --gray-medium: #ccc;
+    --gray-dark: #555;
+    --green: #388e3c;
+    --red: #d32f2f;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gray-light);
+    margin: 0; padding: 1.5rem;
+    color: var(--gray-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+    h1 {
+    display: grid;
+    color: var(--blue-dark);
+    margin-bottom: 1rem;
+    user-select: none;
+    justify-items: center;
+    }
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .tab-btn {
+    background: var(--gray-medium);
+    border: none;
+    border-radius: 6px 6px 0 0;
+    padding: 0.5rem 1.3rem;
+    font-weight: 700;
+    color: var(--blue-dark);
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.12);
+    transition: background-color 0.3s, color 0.3s;
+    user-select: none;
+  }
+  .tab-btn:hover:not(.active) {
+    background: var(--blue-light);
+    color: white;
+  }
+  .tab-btn.active {
+    background: var(--blue-dark);
+    color: white;
+    cursor: default;
+    box-shadow: inset 0 -4px 0 0 var(--green);
+  }
+  .tab-content {
+    background: white;
+    border-radius: 0 10px 10px 10px;
+    padding: 1rem 1.4rem 1.6rem;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 0.15);
+    min-height: 400px;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  th, td {
+    border: 1px solid var(--gray-medium);
+    padding: 0.5rem 0.7rem;
+    text-align: center;
+    user-select: none;
+  }
+  th {
+    background: var(--blue-light);
+    color: white;
+    font-weight: 700;
+  }
+  tr.selected {
+    background-color: var(--blue-light);
+    color: white;
+  }
+  input[type="text"] {
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--gray-medium);
+    margin-right: 0.5rem;
+  }
+  button {
+    margin-top: 1rem;
+    padding: 0.45rem 1.2rem;
+    cursor: pointer;
+    background-color: var(--blue-light);
+    border: none;
+    color: white;
+    border-radius: 6px;
+    font-weight: 700;
+    box-shadow: 0 3px 6px rgb(0 0 0 / 0.22);
+    transition: background-color 0.25s;
+    user-select: none;
+  }
+  button:hover:not(:disabled) {
+    background-color: var(--blue-dark);
+  }
+  button:disabled {
+    background-color: var(--gray-medium);
+    cursor: default;
+  }
+
+  /* Modal para edição */
+  .modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+  .modal[aria-hidden="false"] {
+    display: flex;
+  }
+  .modal-content {
+    background: white;
+    padding: 1.5rem 2rem;
+    border-radius: 8px;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    text-align: center;
+  }
+  .modal-content h3 {
+    margin-bottom: 1rem;
+  }
+  .modal-content label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+  }
+  .modal-content input {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+  .modal-buttons button {
+    padding: 0.5rem 1.3rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--blue-light);
+    color: white;
+    transition: background-color 0.3s;
+  }
+  .modal-buttons button:hover {
+    background-color: var(--blue-dark);
+  }
+</style>
+</head>
+<body>
+
+<h1>Administração do Campeonato</h1>
+
+<div class="tabs" role="tablist" aria-label="Divisões">
+  <button class="tab-btn active" data-tab="div1Tab" role="tab" aria-selected="true" aria-controls="div1Tab">1ª Divisão</button>
+  <button class="tab-btn" data-tab="div2Tab" role="tab" aria-selected="false" aria-controls="div2Tab">2ª Divisão</button>
+</div>
+
+<div style="margin-top: 1rem;">
+  <button id="btnFinalizarTemporada">Finalizar Temporada</button>
+  <button id="btnExportPDF">Exportar Classificação em PDF</button>
+  <button id="btnShowChampions">Exibir Campeões Anteriores</button>
+</div>
+<br>
+<br>
+<br>
+<div id="div1Tab" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="div1Tab">
+  <h2>1ª Divisão</h2>
+  <input type="text" id="addTeamDiv1" placeholder="Nome da equipe" aria-label="Nome da equipe para 1ª divisão" />
+  <button id="btnAddDiv1">Adicionar Equipe</button>
+  <button id="btnRemoveDiv1" disabled>Excluir Equipe Selecionada</button>
+  <table id="tableDiv1" aria-label="Tabela 1ª divisão">
+    <br>
+    <br>
+    <br>
+    <thead>
+      <tr>
+        <th>Posição</th>
+        <th>Nome</th>
+        <th>Pontos</th>
+        <th>Jogos</th>
+        <th>Vitórias</th>
+        <th>Empates</th>
+        <th>Derrotas</th>
+        <th>Gols</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<div id="div2Tab" class="tab-content" role="tabpanel" tabindex="0" aria-labelledby="div2Tab" hidden>
+  <h2>2ª Divisão</h2>
+  <input type="text" id="addTeamDiv2" placeholder="Nome da equipe" aria-label="Nome da equipe para 2ª divisão" />
+  <button id="btnAddDiv2">Adicionar Equipe</button>
+  <button id="btnRemoveDiv2" disabled>Excluir Equipe Selecionada</button>
+  <table id="tableDiv2" aria-label="Tabela 2ª divisão">
+    <br>
+    <br>
+    <br>
+    <thead>
+      <tr>
+        <th>Posição</th>
+        <th>Nome</th>
+        <th>Pontos</th>
+        <th>Jogos</th>
+        <th>Vitórias</th>
+        <th>Empates</th>
+        <th>Derrotas</th>
+        <th>Gols</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- Modal Campeões -->
+<div id="modalCampeoes" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalCampeoesTitle" tabindex="-1">
+  <div class="modal-content" role="document">
+    <h3 id="modalCampeoesTitle">Campeões Anteriores</h3>
+    <ul id="listCampeoes" style="max-height: 300px; overflow-y: auto; text-align: left; padding-left: 1rem;"></ul>
+    <button id="btnExportChampionsPDF">Exportar Campeões em PDF</button>
+    <button id="btnCloseModal" style="margin-left: 1rem;">Fechar</button>
+  </div>
+</div>
+
+<!-- Modal Edição -->
+<div id="editModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+  <div class="modal-content" role="document">
+    <h3 id="modalTitle">Editar Valor</h3>
+    <label for="editInput">Novo valor (número ≥ 0):</label>
+    <input type="number" id="editInput" min="0" aria-label="Campo para editar valor" />
+    <div class="modal-buttons">
+      <button id="btnSaveEdit">Salvar</button>
+      <button id="btnCancelEdit">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(() => {
+  let div1 = [];
+  let div2 = [];
+  let championsList = [];
+  let selectedDiv1 = null;
+  let selectedDiv2 = null;
+
+  // Salvar estado
+  function saveState() {
+    localStorage.setItem('div1', JSON.stringify(div1));
+    localStorage.setItem('div2', JSON.stringify(div2));
+    localStorage.setItem('championsList', JSON.stringify(championsList));
+  }
+  // Carregar estado
+  function loadState() {
+    div1 = JSON.parse(localStorage.getItem('div1')) || [];
+    div2 = JSON.parse(localStorage.getItem('div2')) || [];
+    championsList = JSON.parse(localStorage.getItem('championsList')) || [];
+  }
+
+  // Ordenar divisão para exibição
+  function sortDivision(div) {
+    div.sort((a,b) => {
+      const ptsA = a.v * 3 + a.e;
+      const ptsB = b.v * 3 + b.e;
+      if(ptsB !== ptsA) return ptsB - ptsA;
+      if(b.v !== a.v) return b.v - a.v;
+      if(b.g !== a.g) return b.g - a.g;
+      return a.nome.localeCompare(b.nome);
+    });
+  }
+
+  // Atualizar tabela
+  function updateTable(div, tbody, selectedIndex, divisionId) {
+    tbody.innerHTML = '';
+    sortDivision(div);
+    div.forEach((team, i) => {
+      const pontos = team.v * 3 + team.e;
+      const jogos = team.v + team.e + team.d;
+      const tr = document.createElement('tr');
+      tr.classList.toggle('selected', selectedIndex === i);
+      tr.tabIndex = 0;
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${team.nome}</td>
+        <td>${pontos}</td>
+        <td>${jogos}</td>
+        <td>${team.v}</td>
+        <td>${team.e}</td>
+        <td>${team.d}</td>
+        <td>${team.g}</td>
+      `;
+      tr.onclick = () => {
+        if (divisionId === 1) {
+          selectedDiv1 = i;
+          document.getElementById('btnRemoveDiv1').disabled = false;
+        } else {
+          selectedDiv2 = i;
+          document.getElementById('btnRemoveDiv2').disabled = false;
+        }
+        updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+        updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+      };
+      tbody.appendChild(tr);
+    });
+    attachDoubleClickForEdit(tbody, div, divisionId);
+  }
+
+  // Adicionar equipe
+  function addTeam(div, input, tbody, divisionId) {
+    const name = input.value.trim();
+    if (!name) {
+      alert('Digite o nome da equipe antes de adicionar.');
+      input.focus();
+      return;
+    }
+    if (div.some(t => t.nome.toLowerCase() === name.toLowerCase())) {
+      alert('Equipe já existe nesta divisão.');
+      input.focus();
+      return;
+    }
+    const newTeam = { nome: name, v: 0, e: 0, d: 0, g: 0 };
+    div.push(newTeam);
+    input.value = '';
+    saveState();
+    updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+    updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+  }
+
+  // Remover equipe selecionada
+  function removeSelected(div, tbody, divisionId) {
+    if (divisionId === 1 && selectedDiv1 !== null) {
+      if (!confirm(`Tem certeza que deseja excluir a equipe "${div[selectedDiv1].nome}" da 1ª Divisão?`)) return;
+      div.splice(selectedDiv1, 1);
+      selectedDiv1 = null;
+      document.getElementById('btnRemoveDiv1').disabled = true;
+    }
+    if (divisionId === 2 && selectedDiv2 !== null) {
+      if (!confirm(`Tem certeza que deseja excluir a equipe "${div[selectedDiv2].nome}" da 2ª Divisão?`)) return;
+      div.splice(selectedDiv2, 1);
+      selectedDiv2 = null;
+      document.getElementById('btnRemoveDiv2').disabled = true;
+    }
+    saveState();
+    updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+    updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+  }
+
+  // Finalizar temporada (promoção/rebaixamento)
+  function finalizarTemporada() {
+    if (div1.length < 4 || div2.length < 4) {
+      alert('Para finalizar a temporada, cada divisão deve ter pelo menos 4 equipes.');
+      return;
+    }
+    sortDivision(div1);
+    sortDivision(div2);
+
+    const campeaoDiv1 = div1[0].nome;
+    const campeaoDiv2 = div2[0].nome;
+
+    const promovidos = div2.splice(0, 2);
+    const rebaixados = div1.splice(div1.length - 2, 2);
+
+    div1 = div1.concat(promovidos);
+    div2 = rebaixados.concat(div2);
+
+    alert(`Temporada finalizada!\n\nCampeões:\n1ª Divisão: ${campeaoDiv1}\n2ª Divisão: ${campeaoDiv2}\n\nPromoção e Rebaixamento aplicados.`);
+
+    championsList.push({
+      date: new Date().toLocaleDateString(),
+      campeaoDiv1,
+      campeaoDiv2
+    });
+
+    saveState();
+    updateLatestChampionUI();
+
+    selectedDiv1 = null;
+    selectedDiv2 = null;
+    document.getElementById('btnRemoveDiv1').disabled = true;
+    document.getElementById('btnRemoveDiv2').disabled = true;
+
+    updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+    updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+  }
+
+  // Atualizar UI campeões recentes
+  function updateLatestChampionUI() {
+    // Pode adicionar algo aqui se quiser exibir campeões em algum lugar fixo
+  }
+
+  // Exportar classificação em PDF
+  async function exportClassificationPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    if (!doc.autoTable) {
+      await import('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js');
+    }
+    doc.setFontSize(18);
+    doc.text('Classificação Campeonato', 14, 15);
+
+    let y = 25;
+    function addDivisionTable(div, title) {
+      sortDivision(div);
+      doc.setFontSize(16);
+      doc.text(title, 14, y);
+      y += 8;
+      const rows = div.map((team, i) => {
+        const pontos = team.v * 3 + team.e;
+        const jogos = team.v + team.e + team.d;
+        return [i + 1, team.nome, pontos, jogos, team.v, team.e, team.d, team.g];
+      });
+      doc.autoTable({
+        startY: y,
+        head: [['Posição', 'Nome', 'Pontos', 'Jogos', 'Vitórias', 'Empates', 'Derrotas', 'Gols']],
+        body: rows,
+        styles: { fontSize: 9 },
+        headStyles: { fillColor: [21, 101, 192] },
+        margin: { left: 14, right: 14 }
+      });
+      y = doc.lastAutoTable.finalY + 12;
+    }
+    addDivisionTable(div1, '1ª Divisão');
+    addDivisionTable(div2, '2ª Divisão');
+
+    doc.save('classificacao_campeonato.pdf');
+  }
+
+  // Mostrar modal campeões
+  function showChampionsModal() {
+    renderChampionsList();
+    modalCampeoes.setAttribute('aria-hidden', 'false');
+    modalCampeoes.style.display = 'flex';
+    modalCampeoes.focus();
+  }
+  // Fechar modal campeões
+  function closeChampionsModal() {
+    modalCampeoes.setAttribute('aria-hidden', 'true');
+    modalCampeoes.style.display = 'none';
+  }
+  // Renderizar lista campeões
+  function renderChampionsList() {
+    const ul = document.getElementById('listCampeoes');
+    ul.innerHTML = '';
+    if (championsList.length === 0) {
+      const li = document.createElement('li');
+      li.textContent = 'Nenhuma temporada finalizada ainda.';
+      ul.appendChild(li);
+      return;
+    }
+    championsList.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `[${item.date}] 1ª Divisão: ${item.campeaoDiv1} | 2ª Divisão: ${item.campeaoDiv2}`;
+      ul.appendChild(li);
+    });
+  }
+  // Exportar campeões em PDF
+  function exportChampionsPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(16);
+    doc.text('Campeões Anteriores', 14, 20);
+
+    if (championsList.length === 0) {
+      doc.setFontSize(12);
+      doc.text('Nenhuma temporada finalizada ainda.', 14, 30);
+    } else {
+      doc.setFontSize(12);
+      let y = 30;
+      championsList.forEach((item) => {
+        const line = `[${item.date}] 1ª Divisão: ${item.campeaoDiv1} | 2ª Divisão: ${item.campeaoDiv2}`;
+        doc.text(line, 14, y);
+        y += 10;
+        if (y > 280) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+    }
+    doc.save('campeoes_anteriores.pdf');
+  }
+
+  // Modal edição
+  let currentEdit = { divisionId: null, teamIndex: null, field: null, cellElement: null };
+  const modal = document.getElementById('editModal');
+  const inputEdit = document.getElementById('editInput');
+  const btnSaveEdit = document.getElementById('btnSaveEdit');
+  const btnCancelEdit = document.getElementById('btnCancelEdit');
+
+  function openEditModal(divisionId, teamIndex, field, cellElement) {
+    currentEdit = { divisionId, teamIndex, field, cellElement };
+    const div = divisionId === 1 ? div1 : div2;
+    inputEdit.value = div[teamIndex][field];
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    inputEdit.focus();
+    inputEdit.select();
+  }
+  function closeEditModal() {
+    modal.style.display = 'none';
+    modal.setAttribute('aria-hidden', 'true');
+    currentEdit = { divisionId: null, teamIndex: null, field: null, cellElement: null };
+  }
+  btnSaveEdit.addEventListener('click', () => {
+    const val = inputEdit.value.trim();
+    if (!/^\d+$/.test(val)) {
+      alert('Por favor, insira um número inteiro válido (≥ 0).');
+      inputEdit.focus();
+      return;
+    }
+    const numVal = Number(val);
+    const { divisionId, teamIndex, field, cellElement } = currentEdit;
+    const div = divisionId === 1 ? div1 : div2;
+    div[teamIndex][field] = numVal;
+    saveState();
+    updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+    updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+    closeEditModal();
+  });
+  btnCancelEdit.addEventListener('click', closeEditModal);
+
+  // Duplo clique para abrir modal nas células
+  function attachDoubleClickForEdit(tbody, div, divisionId) {
+    tbody.querySelectorAll('tr').forEach((tr, idx) => {
+      ['v', 'e', 'd', 'g'].forEach(field => {
+        const colIndex = { v:4, e:5, d:6, g:7 }[field];
+        const cell = tr.cells[colIndex];
+        if (!cell) return;
+        cell.style.cursor = 'pointer';
+        cell.ondblclick = () => openEditModal(divisionId, idx, field, cell);
+      });
+    });
+  }
+
+  // Setup abas
+  function setupTabs() {
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        if(button.classList.contains('active')) return;
+        buttons.forEach(b => {
+          b.classList.remove('active');
+          document.getElementById(b.dataset.tab).hidden = true;
+          document.getElementById(b.dataset.tab).setAttribute('aria-hidden', 'true');
+          b.setAttribute('aria-selected', 'false');
+        });
+        button.classList.add('active');
+        const tabId = button.dataset.tab;
+        const tabContent = document.getElementById(tabId);
+        tabContent.hidden = false;
+        tabContent.setAttribute('aria-hidden', 'false');
+        button.setAttribute('aria-selected', 'true');
+        tabContent.focus();
+      });
+    });
+  }
+
+  // Elementos modal campeões
+  const modalCampeoes = document.getElementById('modalCampeoes');
+  const btnExportChampionsPDF = document.getElementById('btnExportChampionsPDF');
+  const btnCloseModal = document.getElementById('btnCloseModal');
+
+  btnCloseModal.addEventListener('click', closeChampionsModal);
+  btnExportChampionsPDF.addEventListener('click', exportChampionsPDF);
+
+  // Botões
+  document.getElementById('btnAddDiv1').onclick = () => addTeam(div1, document.getElementById('addTeamDiv1'), document.querySelector('#tableDiv1 tbody'), 1);
+  document.getElementById('btnAddDiv2').onclick = () => addTeam(div2, document.getElementById('addTeamDiv2'), document.querySelector('#tableDiv2 tbody'), 2);
+  document.getElementById('btnRemoveDiv1').onclick = () => removeSelected(div1, document.querySelector('#tableDiv1 tbody'), 1);
+  document.getElementById('btnRemoveDiv2').onclick = () => removeSelected(div2, document.querySelector('#tableDiv2 tbody'), 2);
+  document.getElementById('btnFinalizarTemporada').onclick = finalizarTemporada;
+  document.getElementById('btnExportPDF').onclick = exportClassificationPDF;
+  document.getElementById('btnShowChampions').onclick = showChampionsModal;
+
+  // Inicialização
+  function init() {
+    loadState();
+    updateTable(div1, document.querySelector('#tableDiv1 tbody'), selectedDiv1, 1);
+    updateTable(div2, document.querySelector('#tableDiv2 tbody'), selectedDiv2, 2);
+    setupTabs();
+  }
+  window.addEventListener('load', init);
+
+  // Fechar modais com ESC
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if(modal.style.display === 'flex') closeEditModal();
+      if(modalCampeoes.style.display === 'flex') closeChampionsModal();
+    }
+  });
+
+})();
+</script></p>
+  <button onclick="sair()">Sair</button>
+</div>
+
+<script>
+function verificarSenha() {
+  const senha = document.getElementById('senha').value;
+  if (senha === '074708') {
+    localStorage.setItem('autenticado', 'true');
+    document.getElementById('loginContainer').style.display = 'none';
+    document.getElementById('conteudoPrincipal').style.display = 'block';
+    init(); // Inicia o sistema
+  } else {
+    document.getElementById('mensagemErro').textContent = 'Senha incorreta. Tente novamente.';
+  }
+}
+
+function sair() {
+  localStorage.removeItem('autenticado');
+  location.reload();
+}
+
+window.addEventListener('load', () => {
+  const autenticado = localStorage.getItem('autenticado') === 'true';
+  document.getElementById('loginContainer').style.display = autenticado ? 'none' : 'flex';
+  document.getElementById('conteudoPrincipal').style.display = autenticado ? 'block' : 'none';
+  if (autenticado) init();
+});
+
+function init() {
+  // Toda sua lógica de inicialização do sistema vai aqui
+  console.log("Sistema iniciado");
+}
+</script>
+
+</body>
+</html>
